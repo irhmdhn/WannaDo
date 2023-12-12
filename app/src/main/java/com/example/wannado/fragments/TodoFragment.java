@@ -1,14 +1,26 @@
 package com.example.wannado.fragments;
 
+import android.app.AppComponentFactory;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 
 import com.example.wannado.R;
+import com.example.wannado.adapter.TodoAdapter;
+import com.example.wannado.details.DetailTodoActivity;
+import com.example.wannado.model.TodoModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +40,7 @@ public class TodoFragment extends Fragment {
 
     public TodoFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -57,10 +70,45 @@ public class TodoFragment extends Fragment {
         }
     }
 
+    List<TodoModel> elemens;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_todo, container, false);
+
+
+        View view = inflater.inflate(R.layout.fragment_todo, container, false);
+        addData();
+        TodoAdapter adapter = new TodoAdapter(elemens, getActivity(), new TodoAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TodoModel item) {
+                detail(item);
+            }
+        });
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        RecyclerView recyclerView = view.findViewById(R.id.rvTodo);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(adapter);
+
+        return view;
+    }
+    private void addData(){
+        elemens = new ArrayList<>();
+        elemens.add(new TodoModel("Judul 1","Ini adalah deskripsi 1","22 Desember 2023"));
+        elemens.add(new TodoModel("Judul 2","Ini adalah deskripsi 2","1 Desember 2023"));
+        elemens.add(new TodoModel("Judul 3","Ini adalah deskripsi 3","15 Oktober 2023"));
+        elemens.add(new TodoModel("Judul 4","Ini adalah deskripsi 4","11 Januari 2023"));
+        elemens.add(new TodoModel("Judul 5","Ini adalah deskripsi 5","23 November 2023"));
+        elemens.add(new TodoModel("Judul 6","Ini adalah deskripsi 6","22 Desember 2023"));
+        elemens.add(new TodoModel("Judul 7","Ini adalah deskripsi 7","1 Desember 2023"));
+        elemens.add(new TodoModel("Judul 8","Ini adalah deskripsi 8","15 Oktober 2023"));
+        elemens.add(new TodoModel("Judul 9","Ini adalah deskripsi 9","11 Januari 2023"));
+        elemens.add(new TodoModel("Judul 10","Ini adalah deskripsi 10","23 November 2023"));
+    }
+    private void detail(TodoModel item){
+        Intent intent = new Intent(getActivity(), DetailTodoActivity.class);
+        intent.putExtra("TodoModel",item);
+        startActivity(intent);
     }
 }

@@ -4,27 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".SplashScreenActivity">
+    tools:context=".details.DetailTodoActivity">
 
     <TextView
+        android:id="@+id/tvTodoTitleDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="WannaDo"
+        android:text="title"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp"
         />
     <TextView
+        android:id="@+id/tvTodoDescDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mengelola kegiatan harianmu"
+        android:text="desc"
         android:textAlignment="center"
-        android:textColor="@color/white_50"
+        />
+    <TextView
+        android:id="@+id/tvTodoDateDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:textAlignment="center"
         />
 
+
+    
 </LinearLayout>
