@@ -13,6 +13,12 @@
         android:theme="@style/Theme.WannaDo"
         tools:targetApi="31">
         <activity
+            android:name=".details.DetailReminderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".details.DetailNotepadActivity"
+            android:exported="false" />
+        <activity
             android:name=".details.DetailTodoActivity"
             android:exported="false" />
         <activity
@@ -26,7 +32,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

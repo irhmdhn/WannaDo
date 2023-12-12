@@ -19,13 +19,15 @@ public class DetailTodoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_todo);
 
         TodoModel element = (TodoModel) getIntent().getSerializableExtra("TodoModel");
-        tvTodoTitleDetail = findViewById(R.id.tvTodoTitleDetail);
-        tvTodoDescDetail = findViewById(R.id.tvTodoDescDetail);
-        tvTodoDateDetail = findViewById(R.id.tvTodoDateDetail);
+        if(element != null ){
+            tvTodoTitleDetail = findViewById(R.id.tvTodoTitleDetail);
+            tvTodoDescDetail = findViewById(R.id.tvTodoDescDetail);
+            tvTodoDateDetail = findViewById(R.id.tvTodoDateDetail);
 
-        tvTodoTitleDetail.setText(element.getTitle());
-        tvTodoDescDetail.setText(element.getDesc());
-        tvTodoDateDetail.setText(element.getDate());
+            tvTodoTitleDetail.setText(element.getTitle());
+            tvTodoDescDetail.setText(element.getDesc());
+            tvTodoDateDetail.setText(element.getDate());
+        }
 
     }
 }

@@ -34,7 +34,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:contentDescription="Tambah Todo"
-        android:id="@+id/fabTodo"
+        android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
