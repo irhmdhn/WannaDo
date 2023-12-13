@@ -93,10 +93,10 @@ public class ReminderFragment extends Fragment {
     private void addData(){
         elemens = new ArrayList<>();
         elemens.add(new ReminderModel("Judul 1","13/12/2023","12:00","Setiap Hari"));
-        elemens.add(new ReminderModel("Judul 2","13/12/2023","13:00","Setiap 1 Jam"));
-        elemens.add(new ReminderModel("Judul 3","13/12/2023","14:00","Setiap 3 Hari"));
-        elemens.add(new ReminderModel("Judul 4","13/12/2023","15:00","Setiap Minggu"));
-        elemens.add(new ReminderModel("Judul 5","13/12/2023","16:00","Hanya Sekali"));
+        elemens.add(new ReminderModel("Judul 2","14/12/2023","13:00","Setiap 1 Jam"));
+        elemens.add(new ReminderModel("Judul 3","15/12/2023","14:00","Setiap 3 Hari"));
+        elemens.add(new ReminderModel("Judul 4","22/12/2024","15:00","Setiap Minggu"));
+        elemens.add(new ReminderModel("Judul 5","17/12/2025","16:00","Hanya Sekali"));
     }
     private void detail(ReminderModel item){
         Intent intent = new Intent(getActivity(), DetailReminderActivity.class);

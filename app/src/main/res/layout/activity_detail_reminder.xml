@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:clickable="true"
         android:onClick="setDate"
-        android:id="@+id/date"
+        android:id="@+id/pickDate"
         android:layout_height="72dp">
 
         <ImageView
@@ -101,7 +101,7 @@
         android:layout_width="match_parent"
         android:clickable="true"
         android:onClick="setTime"
-        android:id="@+id/time"
+        android:id="@+id/pickTime"
         android:layout_height="72dp">
 
         <ImageView
