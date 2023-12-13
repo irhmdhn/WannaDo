@@ -1,14 +1,26 @@
 package com.example.wannado.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.wannado.R;
+import com.example.wannado.adapter.NotepadAdapter;
+import com.example.wannado.adapter.TodoAdapter;
+import com.example.wannado.details.DetailNotepadActivity;
+import com.example.wannado.details.DetailTodoActivity;
+import com.example.wannado.model.NotepadModel;
+import com.example.wannado.model.TodoModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +69,42 @@ public class NotepadFragment extends Fragment {
         }
     }
 
+    List<NotepadModel> elemens;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notepad, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_notepad, container, false);
+        addData();
+        NotepadAdapter adapter = new NotepadAdapter(elemens, getActivity(), new NotepadAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(NotepadModel item) {
+                detail(item);
+            }
+        });
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        RecyclerView recyclerView = view.findViewById(R.id.rvNotepad);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(adapter);
+
+        return view;
+    }
+    private void addData(){
+        elemens = new ArrayList<>();
+        elemens.add(new NotepadModel("Lorem ipsum dolor sit amet","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.","1 Desember 2023"));
+        elemens.add(new NotepadModel("Judul 3","Ini adalah deskripsi 3","15 Oktober 2023"));
+        elemens.add(new NotepadModel("Judul 4","Ini adalah deskripsi 4","11 Januari 2023"));
+        elemens.add(new NotepadModel("Judul 5","Ini adalah deskripsi 5","23 November 2023"));
+        elemens.add(new NotepadModel("Judul 6","Ini adalah deskripsi 6","22 Desember 2023"));
+        elemens.add(new NotepadModel("Judul 7","Ini adalah deskripsi 7","1 Desember 2023"));
+        elemens.add(new NotepadModel("Judul 8","Ini adalah deskripsi 8","15 Oktober 2023"));
+        elemens.add(new NotepadModel("Judul 9","Ini adalah deskripsi 9","11 Januari 2023"));
+        elemens.add(new NotepadModel("Judul 10","Ini adalah deskripsi 10","23 November 2023"));
+
+    }
+    private void detail(NotepadModel item){
+        Intent intent = new Intent(getActivity(), DetailNotepadActivity.class);
+        intent.putExtra("NotepadModel",item);
+        startActivity(intent);
     }
 }

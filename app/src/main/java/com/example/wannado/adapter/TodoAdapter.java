@@ -32,7 +32,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     @NonNull
     @Override
     public TodoAdapter.TodoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.card_item_notepad, null);
+        View view = mInflater.inflate(R.layout.card_item_todo, null);
         return new TodoAdapter.TodoViewHolder(view);
     }
 
@@ -48,18 +48,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
 
 
     public class TodoViewHolder extends RecyclerView.ViewHolder{
-        TextView tvTitle,tvDesc,tvDate;
+        TextView tvTitle;
         public TodoViewHolder(@NonNull View itemView){
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvNotepadTitle);
-            tvDesc = itemView.findViewById(R.id.tvNotepadDesc);
-            tvDate = itemView.findViewById(R.id.tvNotepadDate);
+            tvTitle = itemView.findViewById(R.id.tvItemTodoTitle);
         }
 
         public void bindData(final TodoModel item){
             tvTitle.setText(item.getTitle());
-            tvDesc.setText(item.getDesc());
-            tvDate.setText(item.getDate());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

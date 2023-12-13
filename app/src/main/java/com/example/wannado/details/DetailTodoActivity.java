@@ -29,5 +29,6 @@ public class DetailTodoActivity extends AppCompatActivity {
             tvTodoDateDetail.setText(element.getDate());
         }
 
+
     }
 }

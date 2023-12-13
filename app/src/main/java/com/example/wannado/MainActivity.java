@@ -2,17 +2,26 @@ package com.example.wannado;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wannado.adapter.ViewPagerAdapter;
@@ -23,10 +32,12 @@ import com.example.wannado.fragments.NotepadFragment;
 import com.example.wannado.fragments.ReminderFragment;
 import com.example.wannado.fragments.TodoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.textfield.TextInputEditText;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -76,15 +87,67 @@ public class MainActivity extends AppCompatActivity{
                 Intent intent;
                 if(position <= 0 ){
                     intent = new Intent(MainActivity.this, DetailNotepadActivity.class);
+                    startActivity(intent);
                 }else if (position == 1){
-                    intent = new Intent(MainActivity.this, DetailTodoActivity.class);
+                    onCreateDialog();
                 }else {
                     intent = new Intent(MainActivity.this, DetailReminderActivity.class);
+                    startActivity(intent);
                 }
-                startActivity(intent);
+
             }
         });
     }
+
+    private String m_Text = "";
+    public Dialog onCreateDialog() {
+
+        MaterialAlertDialogBuilder dialogBuilder = (new MaterialAlertDialogBuilder(this));
+        dialogBuilder.setTitle("Tambah kegiatan");
+
+        final TextInputEditText input = new TextInputEditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setPadding(48,48,48,48);
+        input.setHint("Judul kegiatan");
+        dialogBuilder.setView(input);
+
+        dialogBuilder.setPositiveButton("tambah",null);
+        dialogBuilder.setNegativeButton("Batal",null);
+
+
+
+
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Tambah kegiatan");
+//
+//
+//        final EditText input = new EditText(this);
+//        float dpi = this.getResources().getDisplayMetrics().density;
+//        input.setInputType(InputType.TYPE_CLASS_TEXT);
+//        input.setPadding(48,48,48,48);
+//        input.setHint("Judul kegiatan");
+//
+//        builder.setView(input);
+//
+//        builder.setPositiveButton("Tambah", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+////              validasi jika kosong
+////              if(){}
+//                Intent intent = new  Intent(MainActivity.this, DetailTodoActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        builder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+        return dialogBuilder.show();
+    }
+
 
 
 

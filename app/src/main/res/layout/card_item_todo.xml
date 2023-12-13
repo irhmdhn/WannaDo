@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cvTodo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     app:strokeWidth="0dp"
-    app:contentPadding="12dp"
+    app:contentPadding="16dp"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp">
@@ -16,13 +16,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true">
-        <TextView
-            android:id="@+id/tvNotepadTitle"
+        <ImageView
+            android:id="@+id/ivItemTodoIcon"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_todo"
+            app:tint="@color/blue"
+            android:layout_marginEnd="12dp"/>
+        <TextView
+            android:id="@+id/tvItemTodoTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Quotes"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:layout_toEndOf="@id/ivItemTodoIcon"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             />
 
