@@ -37,21 +37,22 @@ public class DetailReminderActivity extends AppCompatActivity {
             }
         });
 
-//        Date
-        String currentDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(new Date());
-//        String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
-        tvReminderDateDetail.setText(currentDate);
-//        tvReminderTimeDetail.setText(currentTime);
 
-////        Time
-//        LocalDateTime currentTime = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-//        String formattedTime = currentTime.format(formatter);
-//        tvReminderTimeDetail.setText(formattedTime);
+        String currentDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(new Date());
 
         etReminderTitleDetail = findViewById(R.id.etReminderTitleDetail);
         tvReminderDateDetail = findViewById(R.id.tvReminderDateDetail);
         tvReminderTimeDetail = findViewById(R.id.tvReminderTimeDetail);
+
+//Date
+        tvReminderDateDetail.setText(currentDate);
+
+//Time
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String formattedTime = currentTime.format(formatter);
+        tvReminderTimeDetail.setText(formattedTime);
+
 
         ReminderModel element = (ReminderModel) getIntent().getSerializableExtra("ReminderModel");
         if(element != null ){
