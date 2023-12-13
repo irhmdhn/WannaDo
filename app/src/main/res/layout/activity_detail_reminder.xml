@@ -5,29 +5,140 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:background="@drawable/bg_gradient_light"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
     tools:context=".details.DetailReminderActivity">
 
-    <TextView
-        android:id="@+id/tvReminderTitleDetail"
+    <LinearLayout
+        android:id="@+id/rlD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reminder"
-        android:textAlignment="center"
-        />
-    <TextView
-        android:id="@+id/tvReminderDescDetail"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center|start"
+            android:background="@drawable/ic_back"
+            android:foregroundTint="@color/black" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:contentDescription="Tambah Todo"
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_check"
+            app:tint="@color/white"
+            android:backgroundTint="@color/blue"
+            app:fabCustomSize="48dp"
+            />
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etReminderTitleDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="desc"
-        android:textAlignment="center"
+        android:inputType="text|textMultiLine"
+        android:gravity="top"
+        android:hint="Judul"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:backgroundTint="@android:color/transparent"
+        android:paddingVertical="12dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="6dp"
         />
-    <TextView
-        android:id="@+id/tvReminderDateDetail"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="date"
-        android:textAlignment="center"
-        />
+        android:clickable="true"
+        android:onClick="setDate"
+        android:id="@+id/date"
+        android:layout_height="72dp">
+
+        <ImageView
+            android:id="@+id/date_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="32dp"
+            android:src="@drawable/ic_calendar"
+            android:layout_centerVertical="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/date_icon"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:textSize="15dp"
+                android:layout_height="wrap_content"
+                android:text="Tanggal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tvReminderDateDetail"
+                android:textSize="15dp"
+                android:text="date"
+                android:textColor="@color/grey"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:onClick="setTime"
+        android:id="@+id/time"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="72dp">
+
+        <ImageView
+            android:id="@+id/time_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="32dp"
+            android:src="@drawable/ic_time"
+            android:layout_centerVertical="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/time_icon"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
+                android:textSize="15dp"
+                android:layout_height="wrap_content"
+                android:text="Waktu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tvReminderTimeDetail"
+                android:textSize="15dp"
+                android:text="00:00"
+                android:textColor="@color/grey"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
