@@ -19,9 +19,6 @@ public interface TodolistDAO {
     @Query("SELECT * FROM Todolist WHERE id=:id")
     Todolist getId(int id);
 
-    @Query("SELECT MAX(id) FROM Todolist")
-    int getLastId();
-
 //    @Query("SELECT * FROM Todolist_item WHERE todo_id=:todo_id")
 //    Todolist_item getTodoItems(int todo_id);
 

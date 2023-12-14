@@ -89,10 +89,10 @@ public class MainActivity extends AppCompatActivity{
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        listTodo = new ArrayList<>();
-        listTodo.clear();
-        listTodo.addAll(database.todolistDAO().getTodolist());
-        todoAdapter = new TodoAdapter(listTodo, getApplicationContext(), null);
+//        listTodo = new ArrayList<>();
+//        listTodo.clear();
+//        listTodo.addAll(database.todolistDAO().getTodolist());
+//        todoAdapter = new TodoAdapter(listTodo, getApplicationContext(), null);
 
     }
 
@@ -106,7 +106,9 @@ public class MainActivity extends AppCompatActivity{
                     intent = new Intent(MainActivity.this, DetailNotepadActivity.class);
                     startActivity(intent);
                 }else if (position == 1){
-                    onCreateDialog();
+//                    onCreateDialog();
+                    intent = new Intent(MainActivity.this, DetailTodoActivity.class);
+                    startActivity(intent);
                 }else {
                     intent = new Intent(MainActivity.this, DetailReminderActivity.class);
                     startActivity(intent);
@@ -115,74 +117,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
-
-
-    public Dialog onCreateDialog() {
-
-        database = AppDatabase.getInstance(getApplicationContext());
-
-        MaterialAlertDialogBuilder dialogBuilder = (new MaterialAlertDialogBuilder(MainActivity.this));
-        dialogBuilder.setTitle("Tambah kegiatan");
-
-        final TextInputEditText input = new TextInputEditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setPadding(48,48,48,48);
-        input.setHint("Judul kegiatan");
-        dialogBuilder.setView(input);
-
-        dialogBuilder.setPositiveButton("tambah", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Todolist todolist = new Todolist();
-                todolist.title = input.getText().toString();
-                database.todolistDAO().insertAll(todolist);
-                onStart();
-                Intent intent = new Intent(MainActivity.this, DetailTodoActivity.class);
-                intent.putExtra("id", database.todolistDAO().getLastId());
-                startActivity(intent);
-            }
-        });
-        dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        return dialogBuilder.show();
-    }
-
-
-
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Tambah kegiatan");
-//
-//
-//        final EditText input = new EditText(this);
-//        float dpi = this.getResources().getDisplayMetrics().density;
-//        input.setInputType(InputType.TYPE_CLASS_TEXT);
-//        input.setPadding(48,48,48,48);
-//        input.setHint("Judul kegiatan");
-//
-//        builder.setView(input);
-//
-//        builder.setPositiveButton("Tambah", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-////              validasi jika kosong
-////              if(){}
-//                Intent intent = new  Intent(MainActivity.this, DetailTodoActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        builder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-
-
 
 
 

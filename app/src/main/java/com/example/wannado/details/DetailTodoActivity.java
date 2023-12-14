@@ -41,11 +41,10 @@ public class DetailTodoActivity extends AppCompatActivity {
         id = intent.getIntExtra("id",0);
         database = AppDatabase.getInstance(getApplicationContext());
 
-        if (id > 0 ){
+        if (id > 0){
             Todolist todolist = database.todolistDAO().getId(id);
             etTodoTitle = findViewById(R.id.etTodoTitle);
             etTodoTitle.setText(todolist.title);
-
         }
 
 //        Todolist element = (Todolist) getIntent().getSerializableExtra("TodoModel");
