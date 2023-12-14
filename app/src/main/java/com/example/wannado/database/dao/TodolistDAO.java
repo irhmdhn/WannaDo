@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.database.entities.Todolist_item;
@@ -17,13 +18,14 @@ public interface TodolistDAO {
     List<Todolist> getTodolist();
 
     @Query("SELECT * FROM Todolist WHERE id=:id")
-    Todolist getId(int id);
+    Todolist getId(Long id);
 
 //    @Query("SELECT * FROM Todolist_item WHERE todo_id=:todo_id")
 //    Todolist_item getTodoItems(int todo_id);
 
     @Insert
-    void insertAll(Todolist... todolists);
+    long insertAll(Todolist todolists);
+
 
     @Delete
     void delete(Todolist todolist);

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Todolist {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public Long id;
 
     public String title;
 }

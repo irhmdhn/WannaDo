@@ -54,6 +54,8 @@
         android:paddingVertical="12dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="6dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         />
 
 

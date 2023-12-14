@@ -23,7 +23,6 @@ public class DetailTodoActivity extends AppCompatActivity {
     EditText etTodoTitle;
     AppDatabase database;
     Button btnBack;
-    int id = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +37,12 @@ public class DetailTodoActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        id = intent.getIntExtra("id",0);
+        Long id = intent.getLongExtra("id",0);
         database = AppDatabase.getInstance(getApplicationContext());
+        Todolist todolist = database.todolistDAO().getId(id);
+        etTodoTitle = findViewById(R.id.etTodoTitle);
+        etTodoTitle.setText(todolist.title);
 
-        if (id > 0){
-            Todolist todolist = database.todolistDAO().getId(id);
-            etTodoTitle = findViewById(R.id.etTodoTitle);
-            etTodoTitle.setText(todolist.title);
-        }
 
 //        Todolist element = (Todolist) getIntent().getSerializableExtra("TodoModel");
 //        Log.i("TES","id nya = "+element);

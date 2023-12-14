@@ -14,7 +14,7 @@ import com.example.wannado.database.dao.TodolistDAO;
 import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.database.entities.Todolist_item;
 
-@Database(entities = {Todolist.class, Todolist_item.class},version = 1)
+@Database(entities = {Todolist.class, Todolist_item.class},version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase sInstance;
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
