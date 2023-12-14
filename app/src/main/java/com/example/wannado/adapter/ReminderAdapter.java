@@ -10,18 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wannado.R;
-import com.example.wannado.model.ReminderModel;
+import com.example.wannado.database.entities.Reminder;
+//import com.example.wannado.model.ReminderModel;
 
 import java.util.List;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder> {
     private final LayoutInflater mInflater;
-    private List<ReminderModel> reminderList;
+    private List<Reminder> reminderList;
     private LayoutInflater layoutInflater;
     private Context context;
     final ReminderAdapter.OnItemClickListener listener;
 
-    public ReminderAdapter(List<ReminderModel> reminderList, Context context, OnItemClickListener listener) {
+    public ReminderAdapter(List<Reminder> reminderList, Context context, OnItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.reminderList = reminderList;
         this.context = context;
@@ -31,12 +32,15 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     @NonNull
     @Override
     public ReminderAdapter.ReminderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.card_item_reminder, null);
+        View view = mInflater.inflate(R.layout.card_item_reminder, parent,false);
         return new ReminderAdapter.ReminderViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ReminderAdapter.ReminderViewHolder holder, int position) {
+        holder.tvItemReminderTitle.setText(reminderList.get(position).title);
+        holder.tvItemReminderDate.setText(reminderList.get(position).date);
+        holder.tvItemReminderTime.setText(reminderList.get(position).time);
         holder.bindData(reminderList.get(position));
     }
 
@@ -53,14 +57,14 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             tvItemReminderTitle = itemView.findViewById(R.id.tvItemReminderTitle);
             tvItemReminderDate = itemView.findViewById(R.id.tvItemReminderDate);
             tvItemReminderTime = itemView.findViewById(R.id.tvItemReminderTime);
-            tvItemReminderRepeat = itemView.findViewById(R.id.tvItemReminderRepeat);
+//            tvItemReminderRepeat = itemView.findViewById(R.id.tvItemReminderRepeat);
         }
 
-        public void bindData(final ReminderModel item){
-            tvItemReminderTitle.setText(item.getTitle());
-            tvItemReminderDate.setText(item.getDate());
-            tvItemReminderTime.setText(item.getTime());
-            tvItemReminderRepeat.setText(item.getRepeat());
+        public void bindData(final Reminder item){
+            tvItemReminderTitle.setText(item.title);
+            tvItemReminderDate.setText(item.date);
+            tvItemReminderTime.setText(item.time);
+//            tvItemReminderRepeat.setText(item.getRepeat());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -70,6 +74,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         }
     }
     public interface OnItemClickListener{
-        void onItemClick(ReminderModel item);
+        void onItemClick(Reminder item);
     }
 }

@@ -6,13 +6,13 @@ public class ReminderModel implements Serializable {
     public String title;
     public String date;
     public String time;
-    public String repeat;
+//    public String repeat;
 
-    public ReminderModel(String title, String date, String time, String repeat) {
+    public ReminderModel(String title, String date, String time) {
         this.title = title;
         this.date = date;
         this.time = time;
-        this.repeat = repeat;
+//        this.repeat = repeat;
     }
 
     public String getTitle() {
@@ -39,11 +39,11 @@ public class ReminderModel implements Serializable {
         this.time = time;
     }
 
-    public String getRepeat() {
-        return repeat;
-    }
-
-    public void setRepeat(String repeat) {
-        this.repeat = repeat;
-    }
+//    public String getRepeat() {
+//        return repeat;
+//    }
+//
+//    public void setRepeat(String repeat) {
+//        this.repeat = repeat;
+//    }
 }

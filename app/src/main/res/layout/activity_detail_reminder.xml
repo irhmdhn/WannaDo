@@ -59,6 +59,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground"
         android:onClick="setDate"
         android:id="@+id/pickDate"
         android:layout_height="72dp">
@@ -100,6 +102,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground"
         android:onClick="setTime"
         android:id="@+id/pickTime"
         android:layout_height="72dp">

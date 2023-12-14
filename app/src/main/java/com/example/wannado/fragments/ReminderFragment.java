@@ -1,8 +1,12 @@
 package com.example.wannado.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.wannado.R;
 import com.example.wannado.adapter.ReminderAdapter;
 import com.example.wannado.adapter.TodoAdapter;
+import com.example.wannado.database.AppDatabase;
+import com.example.wannado.database.entities.Reminder;
 import com.example.wannado.details.DetailReminderActivity;
 import com.example.wannado.details.DetailTodoActivity;
 import com.example.wannado.model.ReminderModel;
@@ -69,17 +76,22 @@ public class ReminderFragment extends Fragment {
         }
     }
 
-    List<ReminderModel> elemens;
+    List<Reminder> elemens;
+    AppDatabase database;
+    ReminderAdapter reminderAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_reminder, container, false);
-        addData();
+        database = AppDatabase.getInstance(getActivity());
+        elemens = new ArrayList<>();
+        elemens.clear();
+        elemens.addAll(database.reminderDAO().getReminder());
         ReminderAdapter adapter = new ReminderAdapter(elemens, getActivity(), new ReminderAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(ReminderModel item) {
+            public void onItemClick(Reminder item) {
                 detail(item);
             }
         });
@@ -90,17 +102,41 @@ public class ReminderFragment extends Fragment {
 
         return view;
     }
-    private void addData(){
-        elemens = new ArrayList<>();
-        elemens.add(new ReminderModel("Judul 1","13/12/2023","12:00","Setiap Hari"));
-        elemens.add(new ReminderModel("Judul 2","14/12/2023","13:00","Setiap 1 Jam"));
-        elemens.add(new ReminderModel("Judul 3","15/12/2023","14:00","Setiap 3 Hari"));
-        elemens.add(new ReminderModel("Judul 4","22/12/2024","15:00","Setiap Minggu"));
-        elemens.add(new ReminderModel("Judul 5","17/12/2025","16:00","Hanya Sekali"));
-    }
-    private void detail(ReminderModel item){
+
+    private void detail(Reminder item){
         Intent intent = new Intent(getActivity(), DetailReminderActivity.class);
-        intent.putExtra("ReminderModel",item);
+        intent.putExtra("id",item.id);
         startActivity(intent);
     }
+
+//    public void showDel(View view) {
+//        // Tampilkan dialog di sini
+//        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//        builder.setTitle("Ingin Hapus?")
+//                .setMessage("Aksi tidak dapat dikembalikan")
+//                .setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // Tindakan yang akan diambil ketika tombol OK diklik
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // Tindakan yang akan diambil ketika tombol OK diklik
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .show();
+//    }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        elemens.clear();
+//        elemens.addAll(database.reminderDAO().getReminder());
+//        reminderAdapter.notifyDataSetChanged();
+//    }
 }
+

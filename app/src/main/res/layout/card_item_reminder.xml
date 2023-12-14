@@ -24,7 +24,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:layout_toLeftOf="@+id/active_image"
+            android:layout_toLeftOf="@+id/btnDel"
             android:orientation="vertical">
 
             <TextView
@@ -66,14 +66,19 @@
 
         </LinearLayout>
 
-        <ImageView android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_notif_active"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/blue"
             android:layout_centerVertical="true"
-            android:id="@+id/active_image"/>
+            android:clickable="true"
+            android:onClick="showDel"
+            android:background="?selectableItemBackground"
+            android:id="@+id/btnDel"/>
 
     </RelativeLayout>
 

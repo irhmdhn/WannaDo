@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +15,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.wannado.R;
-import com.example.wannado.model.NotepadModel;
-import com.example.wannado.model.ReminderModel;
+//import com.example.wannado.model.NotepadModel;
+//import com.example.wannado.model.ReminderModel;
+import com.example.wannado.adapter.ReminderAdapter;
+import com.example.wannado.database.AppDatabase;
+import com.example.wannado.database.entities.Reminder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -27,9 +32,13 @@ import java.util.Locale;
 
 public class DetailReminderActivity extends AppCompatActivity {
     Button btnBack;
+    FloatingActionButton btnSave;
     EditText etReminderTitleDetail;
     TextView tvReminderDateDetail, tvReminderTimeDetail;
     RelativeLayout pickDate, pickTime;
+    AppDatabase database;
+    ReminderAdapter reminderAdapter;
+    int id = 0;
 
     public String checkDigit(int number) {
         return number <= 9 ? "0" + number : String.valueOf(number);
@@ -40,11 +49,13 @@ public class DetailReminderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_reminder);
         btnBack = findViewById(R.id.btnBack);
+        btnSave = findViewById(R.id.btnSave);
         etReminderTitleDetail = findViewById(R.id.etReminderTitleDetail);
         tvReminderDateDetail = findViewById(R.id.tvReminderDateDetail);
         tvReminderTimeDetail = findViewById(R.id.tvReminderTimeDetail);
         pickDate = findViewById(R.id.pickDate);
         pickTime = findViewById(R.id.pickTime);
+        database = AppDatabase.getInstance(getApplicationContext());
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,12 +120,28 @@ public class DetailReminderActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
+        database = AppDatabase.getInstance(getApplicationContext());
 
-        ReminderModel element = (ReminderModel) getIntent().getSerializableExtra("ReminderModel");
-        if(element != null ){
-            etReminderTitleDetail.setText(element.getTitle());
-            tvReminderDateDetail.setText(element.getDate());
-            tvReminderTimeDetail.setText(element.getTime());
+        if(id > 0 ){
+            Reminder reminder = database.reminderDAO().getId(id);
+            etReminderTitleDetail.setText(reminder.title);
+            tvReminderDateDetail.setText(reminder.date);
+            tvReminderTimeDetail.setText(reminder.time);
         }
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Reminder reminder = new Reminder();
+                reminder.title = etReminderTitleDetail.getText().toString();
+                reminder.date = tvReminderDateDetail.getText().toString();
+                reminder.time = tvReminderTimeDetail.getText().toString();
+//                reminder.repeat = tvReminderRepeatDetail.getText().toString();
+                database.reminderDAO().insertAll(reminder);
+                finish();
+            }
+        });
     }
 }
