@@ -6,6 +6,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
@@ -13,7 +15,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +28,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.wannado.adapter.TodoAdapter;
 import com.example.wannado.adapter.ViewPagerAdapter;
+import com.example.wannado.database.AppDatabase;
+import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.details.DetailNotepadActivity;
 import com.example.wannado.details.DetailReminderActivity;
 import com.example.wannado.details.DetailTodoActivity;
@@ -39,6 +46,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity{
     ViewPager viewPager;
@@ -46,12 +56,14 @@ public class MainActivity extends AppCompatActivity{
     TabLayout tabLayout;
     FloatingActionButton fabAdd;
     Context detailActivity;
+    AppDatabase database;
+    TodoAdapter todoAdapter;
+    List<Todolist> listTodo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.viewPage);
@@ -77,6 +89,11 @@ public class MainActivity extends AppCompatActivity{
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
+        listTodo = new ArrayList<>();
+        listTodo.clear();
+        listTodo.addAll(database.todolistDAO().getTodolist());
+        todoAdapter = new TodoAdapter(listTodo, getApplicationContext(), null);
+
     }
 
     public void fabClick(int position){
@@ -99,10 +116,12 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
-    private String m_Text = "";
+
     public Dialog onCreateDialog() {
 
-        MaterialAlertDialogBuilder dialogBuilder = (new MaterialAlertDialogBuilder(this));
+        database = AppDatabase.getInstance(getApplicationContext());
+
+        MaterialAlertDialogBuilder dialogBuilder = (new MaterialAlertDialogBuilder(MainActivity.this));
         dialogBuilder.setTitle("Tambah kegiatan");
 
         final TextInputEditText input = new TextInputEditText(this);
@@ -111,9 +130,26 @@ public class MainActivity extends AppCompatActivity{
         input.setHint("Judul kegiatan");
         dialogBuilder.setView(input);
 
-        dialogBuilder.setPositiveButton("tambah",null);
-        dialogBuilder.setNegativeButton("Batal",null);
-
+        dialogBuilder.setPositiveButton("tambah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Todolist todolist = new Todolist();
+                todolist.title = input.getText().toString();
+                database.todolistDAO().insertAll(todolist);
+                onStart();
+                Intent intent = new Intent(MainActivity.this, DetailTodoActivity.class);
+                intent.putExtra("id", database.todolistDAO().getLastId());
+                startActivity(intent);
+            }
+        });
+        dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        return dialogBuilder.show();
+    }
 
 
 
@@ -145,8 +181,6 @@ public class MainActivity extends AppCompatActivity{
 //                dialog.cancel();
 //            }
 //        });
-        return dialogBuilder.show();
-    }
 
 
 

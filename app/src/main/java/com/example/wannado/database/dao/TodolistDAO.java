@@ -1,16 +1,33 @@
 package com.example.wannado.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 
-import com.example.wannado.database.relation.TodolistRelation;
+import com.example.wannado.database.entities.Todolist;
+import com.example.wannado.database.entities.Todolist_item;
 
 import java.util.List;
 
 @Dao
 public interface TodolistDAO {
-    @Transaction
+
     @Query("SELECT * FROM Todolist")
-    public List<TodolistRelation> getTodolistItems();
+    List<Todolist> getTodolist();
+
+    @Query("SELECT * FROM Todolist WHERE id=:id")
+    Todolist getId(int id);
+
+    @Query("SELECT MAX(id) FROM Todolist")
+    int getLastId();
+
+//    @Query("SELECT * FROM Todolist_item WHERE todo_id=:todo_id")
+//    Todolist_item getTodoItems(int todo_id);
+
+    @Insert
+    void insertAll(Todolist... todolists);
+
+    @Delete
+    void delete(Todolist todolist);
 }

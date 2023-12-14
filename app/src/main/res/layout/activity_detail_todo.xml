@@ -5,29 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:background="@drawable/bg_gradient_light"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
     tools:context=".details.DetailTodoActivity">
 
-    <TextView
-        android:id="@+id/tvTodoTitleDetail"
+    <LinearLayout
+        android:id="@+id/rlD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="title"
-        android:textAlignment="center"
-        />
-    <TextView
-        android:id="@+id/tvTodoDescDetail"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center|start"
+            android:background="@drawable/ic_back"
+            android:foregroundTint="@color/black" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:contentDescription="Tambah Todo"
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_check"
+            app:tint="@color/white"
+            android:backgroundTint="@color/blue"
+            app:fabCustomSize="48dp"
+            />
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etTodoTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="desc"
-        android:textAlignment="center"
-        />
-    <TextView
-        android:id="@+id/tvTodoDateDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="date"
-        android:textAlignment="center"
+        android:inputType="text|textMultiLine"
+        android:gravity="top"
+        android:hint="Judul"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:backgroundTint="@android:color/transparent"
+        android:paddingVertical="12dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="6dp"
         />
 
 

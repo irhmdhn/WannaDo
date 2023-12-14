@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class Todolist {
     @PrimaryKey(autoGenerate = true)
     public int id;
+
     public String title;
 }
 

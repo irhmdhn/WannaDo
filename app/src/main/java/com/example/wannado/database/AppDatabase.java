@@ -46,7 +46,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 }).allowMainThreadQueries().fallbackToDestructiveMigration().build();
     }
 
-    private static AppDatabase getInstance(final Context context) {
+    public static AppDatabase getInstance(final Context context) {
         if (sInstance == null){
             synchronized (AppDatabase.class){
                 if (sInstance == null){

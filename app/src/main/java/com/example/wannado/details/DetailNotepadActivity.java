@@ -62,8 +62,6 @@ public class DetailNotepadActivity extends AppCompatActivity {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            //This sets a textview to the current length
             tvCharCounter = findViewById(R.id.tvCharCounter);
             tvCharCounter.setText(String.valueOf(s.length()));
         }
