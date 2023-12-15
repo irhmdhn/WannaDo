@@ -122,15 +122,15 @@ public class ReminderFragment extends Fragment {
             @Override
             public void onHold(int position) {
                 dialog = new MaterialAlertDialogBuilder(getActivity());
-                dialog.setTitle("Hapus catatan");
-                dialog.setMessage("Yakin untuk menghapus catatan ini?");
+                dialog.setTitle("Hapus Pengingat");
+                dialog.setMessage("Yakin untuk menghapus pengingat ini?");
                 dialog.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Reminder reminder = elemens.get(position);
                         database.reminderDAO().delete(reminder);
                         onStart();
-                        Toast.makeText(getActivity(), "Catatan terhapus", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Pengingat terhapus", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
