@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 import com.example.wannado.R;
 import com.example.wannado.adapter.TodoAdapter;
@@ -25,6 +26,7 @@ import com.example.wannado.adapter.TodoItemsAdapter;
 import com.example.wannado.database.AppDatabase;
 import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.database.entities.Todolist_item;
+import com.example.wannado.details.DetailNotepadActivity;
 import com.example.wannado.details.DetailTodoActivity;
 import com.example.wannado.model.TodoModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -118,6 +120,7 @@ public class TodoFragment extends Fragment {
                         database.todolistDAO().delete(todo);
                         database.todolistItemDAO().deletedParent(todo.id);
                         onStart();
+                        Toast.makeText(getActivity(), "Tugas di hapus", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {

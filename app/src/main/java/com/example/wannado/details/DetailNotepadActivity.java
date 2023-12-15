@@ -2,9 +2,11 @@ package com.example.wannado.details;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -80,6 +82,7 @@ public class DetailNotepadActivity extends AppCompatActivity {
 
 //      Char counter
         etNotepadDesc.addTextChangedListener(mTextEditorWatcher);
+        etNotepadTitle.addTextChangedListener(mTextEditorWatcher);
 
         notepads = new ArrayList<>();
         notepads.clear();
@@ -87,8 +90,7 @@ public class DetailNotepadActivity extends AppCompatActivity {
         notepadAdapter = new NotepadAdapter(notepads, getApplicationContext(),null);
 
         btnSave.setEnabled(false);
-
-
+        btnSave.setVisibility(View.INVISIBLE);
 
         if(id > 0 ){
             notepad = database.notepadDAO().getById(id);
@@ -104,8 +106,8 @@ public class DetailNotepadActivity extends AppCompatActivity {
                             id,
                             etNotepadTitle.getText().toString(),
                             etNotepadDesc.getText().toString(),
-                            tvDate.getText().toString(),
-                            tvTime.getText().toString()
+                            currentDate,
+                            currentTime
                     );
                     onStart();
                     Toast.makeText(DetailNotepadActivity.this, "Catatan di diubah", Toast.LENGTH_SHORT).show();
@@ -119,12 +121,13 @@ public class DetailNotepadActivity extends AppCompatActivity {
                     Notepad notepad = new Notepad();
                     notepad.title = etNotepadTitle.getText().toString();
                     notepad.desc = etNotepadDesc.getText().toString();
-                    notepad.date = tvDate.getText().toString();
-                    notepad.time = tvTime.getText().toString();
+                    notepad.date = currentDate;
+                    notepad.time = currentTime;
                     database.notepadDAO().insertAll(notepad);
                     onStart();
                     Toast.makeText(DetailNotepadActivity.this, "Catatan di Tambahkan", Toast.LENGTH_SHORT).show();
                     onBackPressed();
+
                 }
             });
         }
@@ -135,10 +138,21 @@ public class DetailNotepadActivity extends AppCompatActivity {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            tvCharCounter = findViewById(R.id.tvCharCounter);
-            tvCharCounter.setText(String.valueOf(s.length()));
-
-            btnSave.setEnabled(!s.toString().trim().isEmpty());
+            if (etNotepadDesc != null){
+                tvCharCounter = findViewById(R.id.tvCharCounter);
+                tvCharCounter.setText(String.valueOf(s.length()));
+            }
+//            !s.toString().trim().isEmpty() &&
+//            if(s.length() > 0 ){
+//                btnSave.setVisibility(View.VISIBLE);
+//            }
+            if (s.length() > 0) {
+                btnSave.setEnabled(true);
+                btnSave.setVisibility(View.VISIBLE);
+            } else {
+                btnSave.setEnabled(false);
+                btnSave.setVisibility(View.INVISIBLE);
+            }
         }
 
         public void afterTextChanged(Editable s) {

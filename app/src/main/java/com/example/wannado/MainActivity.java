@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wannado.adapter.TodoAdapter;
 import com.example.wannado.adapter.ViewPagerAdapter;
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity{
                 Intent intent = new Intent(MainActivity.this, DetailTodoActivity.class);
                 intent.putExtra("id", lastId);
                 startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Tugas ditambahkan", Toast.LENGTH_SHORT).show();
 //                onStart();
 
             }

@@ -19,6 +19,7 @@ import com.example.wannado.R;
 import com.example.wannado.database.AppDatabase;
 import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.database.entities.Todolist_item;
+import com.example.wannado.details.DetailTodoActivity;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -60,12 +61,12 @@ public class TodoItemsAdapter extends RecyclerView.Adapter<TodoItemsAdapter.Todo
 
     public class TodoItemsViewHolder extends RecyclerView.ViewHolder{
         TextView tvTodoItem;
-//        MaterialCheckBox cbTodoItem;
+        MaterialCheckBox cbTodoItem;
 
         public TodoItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTodoItem = itemView.findViewById(R.id.tvTodoItem);
-//            cbTodoItem = itemView.findViewById(R.id.cbTodoItem);
+            cbTodoItem = itemView.findViewById(R.id.cbTodoItem);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,13 +75,19 @@ public class TodoItemsAdapter extends RecyclerView.Adapter<TodoItemsAdapter.Todo
                     }
                 }
             });
-//            cbTodoItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                }
-//            });
-//            cbTodoItem.onChange(getLayoutPosition());
+            cbTodoItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        tvTodoItem.setPaintFlags(tvTodoItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        tvTodoItem.setTextColor(ContextCompat.getColor(context, R.color.grey));
+                    }else{
+                        tvTodoItem.setPaintFlags(tvTodoItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                        tvTodoItem.setTextColor(ContextCompat.getColor(context, R.color.dark_blue));
+
+                    }
+                }
+            });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -116,10 +123,10 @@ public class TodoItemsAdapter extends RecyclerView.Adapter<TodoItemsAdapter.Todo
         this.dialog = dialog;
     }
 
-    public void setIsCheck(MaterialCheckBox checkBox){
-        this.checkBox = checkBox;
-    }
-    public interface MaterialCheckBox{
-        void onChange(int position);
-    }
+//    public void setIsCheck(MaterialCheckBox checkBox){
+//        this.checkBox = checkBox;
+//    }
+//    public interface MaterialCheckBox{
+//        void onChange(int position);
+//    }
 }
