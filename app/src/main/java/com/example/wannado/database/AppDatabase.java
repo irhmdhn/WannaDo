@@ -10,13 +10,16 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.wannado.database.dao.NotepadDAO;
 import com.example.wannado.database.dao.ReminderDAO;
 import com.example.wannado.database.dao.TodolistDAO;
+import com.example.wannado.database.dao.TodolistItemDAO;
+import com.example.wannado.database.entities.Notepad;
 import com.example.wannado.database.entities.Reminder;
 import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.database.entities.Todolist_item;
 
-@Database(entities = {Todolist.class, Todolist_item.class, Reminder.class},version = 1)
+@Database(entities = {Notepad.class, Todolist.class, Todolist_item.class, Reminder.class},version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase sInstance;
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
@@ -24,7 +27,9 @@ public abstract class AppDatabase extends RoomDatabase {
     @VisibleForTesting
     public final static String DATABASE_NAME = "WannaDoDB";
 
+    public abstract NotepadDAO notepadDAO();
     public abstract TodolistDAO todolistDAO();
+    public abstract TodolistItemDAO todolistItemDAO();
     public abstract ReminderDAO reminderDAO();
 
     private void setDatabaseCreated(){

@@ -1,7 +1,10 @@
 package com.example.wannado.details;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,28 +12,58 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wannado.R;
+import com.example.wannado.adapter.NotepadAdapter;
+import com.example.wannado.adapter.TodoAdapter;
+import com.example.wannado.database.AppDatabase;
+import com.example.wannado.database.entities.Notepad;
+import com.example.wannado.database.entities.Reminder;
 import com.example.wannado.model.NotepadModel;
 import com.example.wannado.model.TodoModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class DetailNotepadActivity extends AppCompatActivity {
 
     Button btnBack;
+    FloatingActionButton btnSave;
     EditText etNotepadTitle,etNotepadDesc;
-    TextView tvDate, tvCharCounter;
+    TextView tvDate, tvCharCounter, tvTime;
+    AppDatabase database;
+    Notepad notepad;
+    List<Notepad> notepads;
+    NotepadAdapter notepadAdapter;
+    int id = 0;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_notepad);
 
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
+        database = AppDatabase.getInstance(getApplicationContext());
         btnBack = findViewById(R.id.btnBack);
+        btnSave = findViewById(R.id.btnSave);
+        etNotepadTitle = findViewById(R.id.etNotepadTitle);
+        etNotepadDesc = findViewById(R.id.etNotepadDesc);
+        tvDate = findViewById(R.id.tvDate);
+        tvTime = findViewById(R.id.tvTime);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,21 +72,61 @@ public class DetailNotepadActivity extends AppCompatActivity {
         });
 
         String currentDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("hh:mm", Locale.getDefault()).format(new Date());
 
-        etNotepadTitle = findViewById(R.id.etNotepadTitle);
-        etNotepadDesc = findViewById(R.id.etNotepadDesc);
-        tvDate = findViewById(R.id.tvDate);
-
-//      Date
+//      Date & Time
         tvDate.setText(currentDate);
+        tvTime.setText(currentTime);
+
 //      Char counter
         etNotepadDesc.addTextChangedListener(mTextEditorWatcher);
 
-        NotepadModel element = (NotepadModel) getIntent().getSerializableExtra("NotepadModel");
-        if(element != null ){
-            etNotepadTitle.setText(element.getTitle());
-            etNotepadDesc.setText(element.getDesc());
-            tvDate.setText(element.getDate());
+        notepads = new ArrayList<>();
+        notepads.clear();
+        notepads.addAll(database.notepadDAO().getNotepad());
+        notepadAdapter = new NotepadAdapter(notepads, getApplicationContext(),null);
+
+        btnSave.setEnabled(false);
+
+
+
+        if(id > 0 ){
+            notepad = database.notepadDAO().getById(id);
+            etNotepadTitle.setText(notepad.title);
+            etNotepadDesc.setText(notepad.desc);
+            tvDate.setText(notepad.date);
+            tvTime.setText(notepad.time);
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    database.notepadDAO().update(
+                            id,
+                            etNotepadTitle.getText().toString(),
+                            etNotepadDesc.getText().toString(),
+                            tvDate.getText().toString(),
+                            tvTime.getText().toString()
+                    );
+                    onStart();
+                    Toast.makeText(DetailNotepadActivity.this, "Catatan di diubah", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+            });
+        }else {
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Notepad notepad = new Notepad();
+                    notepad.title = etNotepadTitle.getText().toString();
+                    notepad.desc = etNotepadDesc.getText().toString();
+                    notepad.date = tvDate.getText().toString();
+                    notepad.time = tvTime.getText().toString();
+                    database.notepadDAO().insertAll(notepad);
+                    onStart();
+                    Toast.makeText(DetailNotepadActivity.this, "Catatan di Tambahkan", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+            });
         }
     }
 
@@ -64,10 +137,18 @@ public class DetailNotepadActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             tvCharCounter = findViewById(R.id.tvCharCounter);
             tvCharCounter.setText(String.valueOf(s.length()));
+
+            btnSave.setEnabled(!s.toString().trim().isEmpty());
         }
 
         public void afterTextChanged(Editable s) {
         }
     };
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        notepads.clear();
+        notepads.addAll(database.notepadDAO().getNotepad());
+        notepadAdapter.notifyDataSetChanged();
+    }
 }

@@ -12,20 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.wannado.R;
-import com.example.wannado.model.NotepadModel;
+import com.example.wannado.database.entities.Notepad;
 
 import java.util.List;
 
 public class NotepadAdapter extends RecyclerView.Adapter<NotepadAdapter.NotepadViewHolder>{
-    private final LayoutInflater mInflater;
-    private List<NotepadModel> notepadList;
+
+    private List<Notepad> notepads;
     private LayoutInflater layoutInflater;
     private Context context;
     final NotepadAdapter.OnItemClickListener listener;
+    private MaterialAlertDialogBuilder dialog;
 
-    public NotepadAdapter(List<NotepadModel> notepadList, Context context, OnItemClickListener listener) {
-        this.mInflater = LayoutInflater.from(context);
-        this.notepadList = notepadList;
+    public NotepadAdapter(List<Notepad> notepads, Context context, OnItemClickListener listener) {
+        this.notepads = notepads;
         this.context = context;
         this.listener = listener;
     }
@@ -33,22 +33,25 @@ public class NotepadAdapter extends RecyclerView.Adapter<NotepadAdapter.NotepadV
     @NonNull
     @Override
     public NotepadAdapter.NotepadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.card_item_notepad,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_item_notepad,null);
         return new  NotepadAdapter.NotepadViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NotepadAdapter.NotepadViewHolder holder, int position) {
-        holder.bindData(notepadList.get(position));
+        holder.tvItemNotepadTitle.setText(notepads.get(position).title);
+        holder.tvItemNotepadDesc.setText(notepads.get(position).desc);
+        holder.tvItemNotepadDate.setText(notepads.get(position).date);
+        holder.bindData(notepads.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return notepadList.size();
+        return notepads.size();
     }
 
-    public void setNotepadList(List<NotepadModel> items) {
-        notepadList = items;
+    public void setNotepadList(List<Notepad> items) {
+        notepads = items;
     }
 
     public class NotepadViewHolder extends RecyclerView.ViewHolder {
@@ -58,11 +61,21 @@ public class NotepadAdapter extends RecyclerView.Adapter<NotepadAdapter.NotepadV
             tvItemNotepadTitle = itemView.findViewById(R.id.tvItemNotepadTitle);
             tvItemNotepadDesc = itemView.findViewById(R.id.tvItemNotepadDesc);
             tvItemNotepadDate = itemView.findViewById(R.id.tvItemNotepadDate);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (dialog != null){
+                        dialog.onHold(getLayoutPosition());
+                    }
+                    return true;
+                }
+            });
         }
-        public void bindData(final NotepadModel item) {
-            tvItemNotepadTitle.setText(item.getTitle());
-            tvItemNotepadDesc.setText(item.getDesc());
-            tvItemNotepadDate.setText(item.getDate());
+        public void bindData(final Notepad item) {
+            tvItemNotepadTitle.setText(item.title);
+            tvItemNotepadDesc.setText(item.desc);
+            tvItemNotepadDate.setText(item.date);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -73,8 +86,13 @@ public class NotepadAdapter extends RecyclerView.Adapter<NotepadAdapter.NotepadV
     }
 
     public interface OnItemClickListener {
-        void onItemClick(NotepadModel item);
+        void onItemClick(Notepad item);
     }
-
+    public interface MaterialAlertDialogBuilder{
+        void onHold(int position);
+    }
+    public void setDialog(MaterialAlertDialogBuilder dialog){
+        this.dialog = dialog;
+    }
 
 }

@@ -67,6 +67,18 @@
             android:layout_height="wrap_content"
             android:text="date"
             android:textColor="@color/grey"/>
+        <TextView
+            android:id="@+id/divide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" | "
+            android:textColor="@color/grey"/>
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:textColor="@color/grey"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -15,5 +15,5 @@ public class TodolistRelation {
             parentColumn = "id",
             entityColumn = "todo_id"
     )
-    public List<Todolist_item> todolistItems;
+    public List<TodolistRelation> todolistRelations;
 }

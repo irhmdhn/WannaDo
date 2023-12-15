@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,12 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 
 import com.example.wannado.R;
 import com.example.wannado.adapter.TodoAdapter;
+import com.example.wannado.adapter.TodoItemsAdapter;
 import com.example.wannado.database.AppDatabase;
 import com.example.wannado.database.entities.Todolist;
+import com.example.wannado.database.entities.Todolist_item;
 import com.example.wannado.details.DetailTodoActivity;
 import com.example.wannado.model.TodoModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -80,11 +84,11 @@ public class TodoFragment extends Fragment {
     TodoAdapter todoAdapter;
     MaterialAlertDialogBuilder dialog;
     List<Todolist> list;
+    List<Todolist_item> todolistItems;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
 
         View view = inflater.inflate(R.layout.fragment_todo, container, false);
         database = AppDatabase.getInstance(getActivity());
@@ -101,34 +105,41 @@ public class TodoFragment extends Fragment {
                 detail(item);
             }
         });
-        todoAdapter.setDialog(new TodoAdapter.Dialog() {
+        todoAdapter.setDialog(new TodoAdapter.MaterialAlertDialogBuilder() {
             @Override
             public void onHold(int position) {
-                final CharSequence[] dialogItem = {"Hapus","Batal"};
                 dialog = new MaterialAlertDialogBuilder(getActivity());
-                dialog.setItems(dialogItem, new DialogInterface.OnClickListener() {
+                dialog.setTitle("Hapus tugas");
+                dialog.setMessage("Yakin untuk menghapus tugas ini?");
+                dialog.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        switch (i){
-                            case 0:
-                                Todolist todo = list.get(position);
-                                database.todolistDAO().delete(todo);
-                                onStart();
-                                break;
-                            case 1:
-                                dialog.dismiss();
-                        }
+                    public void onClick(DialogInterface dialog, int which) {
+                        Todolist todo = list.get(position);
+                        database.todolistDAO().delete(todo);
+                        database.todolistItemDAO().deletedParent(todo.id);
+                        onStart();
                     }
                 });
-                dialog.show();
+                dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = dialog.show();
+                Button pBtn = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                pBtn.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.red));
+                pBtn.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+
             }
         });
+
+
 
         RecyclerView recyclerView = view.findViewById(R.id.rvTodo);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(todoAdapter);
-
         return view;
     }
 
