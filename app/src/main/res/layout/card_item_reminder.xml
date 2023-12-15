@@ -76,7 +76,7 @@
             app:tint="@color/blue"
             android:layout_centerVertical="true"
             android:clickable="true"
-            android:onClick="showDel"
+            android:onClick="setDialog"
             android:background="?selectableItemBackground"
             android:id="@+id/btnDel"/>
 

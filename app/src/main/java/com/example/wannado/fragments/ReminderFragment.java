@@ -1,30 +1,37 @@
 package com.example.wannado.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.wannado.R;
+import com.example.wannado.adapter.NotepadAdapter;
 import com.example.wannado.adapter.ReminderAdapter;
 import com.example.wannado.adapter.TodoAdapter;
 import com.example.wannado.database.AppDatabase;
+import com.example.wannado.database.entities.Notepad;
 import com.example.wannado.database.entities.Reminder;
 import com.example.wannado.details.DetailReminderActivity;
 import com.example.wannado.details.DetailTodoActivity;
 import com.example.wannado.model.ReminderModel;
 import com.example.wannado.model.TodoModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +86,7 @@ public class ReminderFragment extends Fragment {
     List<Reminder> elemens;
     AppDatabase database;
     ReminderAdapter reminderAdapter;
+    MaterialAlertDialogBuilder dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,16 +97,61 @@ public class ReminderFragment extends Fragment {
         elemens = new ArrayList<>();
         elemens.clear();
         elemens.addAll(database.reminderDAO().getReminder());
-        ReminderAdapter adapter = new ReminderAdapter(elemens, getActivity(), new ReminderAdapter.OnItemClickListener() {
+//        ReminderAdapter adapter = new ReminderAdapter(elemens, getActivity(), new ReminderAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(Reminder item) {
+//                detail(item);
+//            }
+//        });
+//        RecyclerView recyclerView = view.findViewById(R.id.rvReminder);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recyclerView.setAdapter(adapter);
+//
+//        return view;
+
+        reminderAdapter = new ReminderAdapter(elemens, getActivity(),null);
+        reminderAdapter = new ReminderAdapter(elemens, getActivity(), new ReminderAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Reminder item) {
                 detail(item);
             }
         });
+
+        reminderAdapter.setDialog(new ReminderAdapter.MaterialAlertDialogBuilder() {
+            @Override
+            public void onHold(int position) {
+                dialog = new MaterialAlertDialogBuilder(getActivity());
+                dialog.setTitle("Hapus catatan");
+                dialog.setMessage("Yakin untuk menghapus catatan ini?");
+                dialog.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Reminder reminder = elemens.get(position);
+                        database.reminderDAO().delete(reminder);
+                        onStart();
+                        Toast.makeText(getActivity(), "Catatan terhapus", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = dialog.show();
+                Button pBtn = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                pBtn.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.red));
+                pBtn.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+
+            }
+        });
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),1);
         RecyclerView recyclerView = view.findViewById(R.id.rvReminder);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(reminderAdapter);
 
         return view;
     }
@@ -131,12 +184,12 @@ public class ReminderFragment extends Fragment {
 //                .show();
 //    }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        elemens.clear();
-//        elemens.addAll(database.reminderDAO().getReminder());
-//        reminderAdapter.notifyDataSetChanged();
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        elemens.clear();
+        elemens.addAll(database.reminderDAO().getReminder());
+        reminderAdapter.notifyDataSetChanged();
+    }
 }
 

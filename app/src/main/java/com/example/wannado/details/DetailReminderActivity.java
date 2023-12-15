@@ -13,12 +13,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.wannado.R;
 //import com.example.wannado.model.NotepadModel;
 //import com.example.wannado.model.ReminderModel;
 import com.example.wannado.adapter.ReminderAdapter;
 import com.example.wannado.database.AppDatabase;
+import com.example.wannado.database.entities.Notepad;
 import com.example.wannado.database.entities.Reminder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -129,19 +131,49 @@ public class DetailReminderActivity extends AppCompatActivity {
             etReminderTitleDetail.setText(reminder.title);
             tvReminderDateDetail.setText(reminder.date);
             tvReminderTimeDetail.setText(reminder.time);
-        }
+//        }
+//
+//        btnSave.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Reminder reminder = new Reminder();
+//                reminder.title = etReminderTitleDetail.getText().toString();
+//                reminder.date = tvReminderDateDetail.getText().toString();
+//                reminder.time = tvReminderTimeDetail.getText().toString();
+////                reminder.repeat = tvReminderRepeatDetail.getText().toString();
+//                database.reminderDAO().insertAll(reminder);
+//                finish();
+//            }
+//        });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reminder reminder = new Reminder();
-                reminder.title = etReminderTitleDetail.getText().toString();
-                reminder.date = tvReminderDateDetail.getText().toString();
-                reminder.time = tvReminderTimeDetail.getText().toString();
-//                reminder.repeat = tvReminderRepeatDetail.getText().toString();
-                database.reminderDAO().insertAll(reminder);
-                finish();
-            }
-        });
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    database.reminderDAO().update(
+                            id,
+                            etReminderTitleDetail.getText().toString(),
+                            tvReminderDateDetail.getText().toString(),
+                            tvReminderTimeDetail.getText().toString()
+                    );
+                    onStart();
+                    Toast.makeText(DetailReminderActivity.this, "Pengingat di diubah", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+            });
+        }else {
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Reminder reminder = new Reminder();
+                    reminder.title = etReminderTitleDetail.getText().toString();
+                    reminder.date = tvReminderDateDetail.getText().toString();
+                    reminder.time = tvReminderTimeDetail.getText().toString();
+                    database.reminderDAO().insertAll(reminder);
+                    onStart();
+                    Toast.makeText(DetailReminderActivity.this, "Pengingat di Tambahkan", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+            });
+        }
     }
 }

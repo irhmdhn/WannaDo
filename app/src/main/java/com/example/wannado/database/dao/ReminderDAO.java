@@ -7,6 +7,7 @@ import androidx.room.Delete;
 import androidx.room.Update;
 import androidx.lifecycle.LiveData;
 
+import com.example.wannado.database.entities.Notepad;
 import com.example.wannado.database.entities.Reminder;
 
 import java.util.List;
@@ -21,4 +22,10 @@ public interface ReminderDAO {
 
     @Insert
     void insertAll(Reminder... reminders);
+
+    @Delete
+    void delete(Reminder reminder);
+
+    @Query("UPDATE Reminder SET title=:title, date=:date, time=:time WHERE id=:id")
+    void update(int id, String title, String date, String time);
 }

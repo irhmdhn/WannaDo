@@ -21,6 +21,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     private LayoutInflater layoutInflater;
     private Context context;
     final ReminderAdapter.OnItemClickListener listener;
+    private MaterialAlertDialogBuilder dialog;
 
     public ReminderAdapter(List<Reminder> reminderList, Context context, OnItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
@@ -58,6 +59,16 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             tvItemReminderDate = itemView.findViewById(R.id.tvItemReminderDate);
             tvItemReminderTime = itemView.findViewById(R.id.tvItemReminderTime);
 //            tvItemReminderRepeat = itemView.findViewById(R.id.tvItemReminderRepeat);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (dialog != null){
+                        dialog.onHold(getLayoutPosition());
+                    }
+                    return true;
+                }
+            });
         }
 
         public void bindData(final Reminder item){
@@ -75,5 +86,12 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     }
     public interface OnItemClickListener{
         void onItemClick(Reminder item);
+    }
+
+    public interface MaterialAlertDialogBuilder{
+        void onHold(int position);
+    }
+    public void setDialog(ReminderAdapter.MaterialAlertDialogBuilder dialog){
+        this.dialog = dialog;
     }
 }
