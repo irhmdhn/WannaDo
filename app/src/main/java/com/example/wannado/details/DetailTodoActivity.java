@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wannado.MainActivity;
 import com.example.wannado.R;
@@ -111,6 +112,7 @@ public class DetailTodoActivity extends AppCompatActivity {
             }
         });
 
+//        UPDATE & DELETE
         todoItemsAdapter.setDialog(new TodoItemsAdapter.MaterialAlertDialogBuilder() {
             @Override
             public void onClick(int position) {
@@ -131,6 +133,7 @@ public class DetailTodoActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         database.todolistItemDAO().updateItem(todolistItem.id, input.getText().toString());
                         onStart();
+                        Toast.makeText(getApplicationContext(), "Aktivitas diubah", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
@@ -155,6 +158,7 @@ public class DetailTodoActivity extends AppCompatActivity {
                         Todolist_item todolistItem = todolistItems.get(position);
                         database.todolistItemDAO().delete(todolistItem);
                         onStart();
+                        Toast.makeText(getApplicationContext(), "Aktivitas dihapus", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
@@ -207,6 +211,7 @@ public class DetailTodoActivity extends AppCompatActivity {
                 dialog.dismiss();
                 todolist = database.todolistDAO().getId(id);
                 etTodoTitle.setText(todolist.title);
+                Toast.makeText(getApplicationContext(), "Judul diubah", Toast.LENGTH_SHORT).show();
             }
         });
         dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
@@ -238,6 +243,7 @@ public class DetailTodoActivity extends AppCompatActivity {
                 database.todolistItemDAO().insertAll(todolistItem);
                 onStart();
                 dialog.dismiss();
+                Toast.makeText(getApplicationContext(), "aktivitas ditambahkan", Toast.LENGTH_SHORT).show();
             }
         });
         dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {

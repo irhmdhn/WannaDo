@@ -11,7 +11,7 @@ import java.util.List;
 
 @Dao
 public interface NotepadDAO {
-    @Query("SELECT * FROM Notepad")
+    @Query("SELECT * FROM Notepad ORDER BY id DESC")
     List<Notepad> getNotepad();
 
     @Query("SELECT * FROM Notepad WHERE id=:id")
