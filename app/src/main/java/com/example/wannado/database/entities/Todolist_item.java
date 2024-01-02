@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 public class Todolist_item{
     @PrimaryKey(autoGenerate = true)
     public Long id;
+
     public String item;
     @ColumnInfo(name = "is_check")
     public Boolean isCheck = false;

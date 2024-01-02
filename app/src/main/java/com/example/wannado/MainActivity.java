@@ -40,6 +40,7 @@ import com.example.wannado.fragments.NotepadFragment;
 import com.example.wannado.fragments.ReminderFragment;
 import com.example.wannado.fragments.TodoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity{
     ViewPagerAdapter viewPagerAdapter;
     TabLayout tabLayout;
     FloatingActionButton fabAdd;
+    MaterialButton btnSearch;
     Context detailActivity;
     AppDatabase database;
     TodoAdapter todoAdapter;
@@ -90,11 +92,6 @@ public class MainActivity extends AppCompatActivity{
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-//        listTodo = new ArrayList<>();
-//        listTodo.clear();
-//        listTodo.addAll(database.todolistDAO().getTodolist());
-//        todoAdapter = new TodoAdapter(listTodo, getApplicationContext(), null);
-
     }
 
     public void fabClick(int position){
@@ -108,8 +105,6 @@ public class MainActivity extends AppCompatActivity{
                     startActivity(intent);
                 }else if (position == 1){
                     onCreateDialog();
-//                    intent = new Intent(MainActivity.this, DetailTodoActivity.class);
-//                    startActivity(intent);
                 }else {
                     intent = new Intent(MainActivity.this, DetailReminderActivity.class);
                     startActivity(intent);
@@ -144,7 +139,6 @@ public class MainActivity extends AppCompatActivity{
                 intent.putExtra("id", lastId);
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Tugas ditambahkan", Toast.LENGTH_SHORT).show();
-//                onStart();
 
             }
         });
@@ -156,41 +150,6 @@ public class MainActivity extends AppCompatActivity{
         });
         return dialogBuilder.show();
     }
-
-
-
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Tambah kegiatan");
-//
-//
-//        final EditText input = new EditText(this);
-//        float dpi = this.getResources().getDisplayMetrics().density;
-//        input.setInputType(InputType.TYPE_CLASS_TEXT);
-//        input.setPadding(48,48,48,48);
-//        input.setHint("Judul kegiatan");
-//
-//        builder.setView(input);
-//
-//        builder.setPositiveButton("Tambah", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-////              validasi jika kosong
-////              if(){}
-//                Intent intent = new  Intent(MainActivity.this, DetailTodoActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        builder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-
-
-
-
 
 
 }

@@ -31,8 +31,7 @@ import com.example.wannado.adapter.TodoItemsAdapter;
 import com.example.wannado.database.AppDatabase;
 import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.database.entities.Todolist_item;
-import com.example.wannado.model.TodoModel;
-import com.google.android.material.checkbox.MaterialCheckBox;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -68,7 +67,6 @@ public class DetailTodoActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnAddItemTodo = findViewById(R.id.btnAddItemTodo);
         btnEditTitle = findViewById(R.id.btnEditTitle);
-
 
         Intent intent = getIntent();
         Long id = intent.getLongExtra("id",0);
@@ -113,6 +111,13 @@ public class DetailTodoActivity extends AppCompatActivity {
         });
 
 //        UPDATE & DELETE
+//        todoItemsAdapter.setIsCheck(new TodoItemsAdapter.MaterialCheckBox() {
+//            @Override
+//            public void onChange(int position) {
+//                Toast.makeText(DetailTodoActivity.this, "selesai", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
         todoItemsAdapter.setDialog(new TodoItemsAdapter.MaterialAlertDialogBuilder() {
             @Override
             public void onClick(int position) {
@@ -174,16 +179,6 @@ public class DetailTodoActivity extends AppCompatActivity {
             }
         });
 
-//        todoItemsAdapter.setIsCheck(new TodoItemsAdapter.MaterialCheckBox() {
-//            @Override
-//            public void onChange(int position) {
-//                if(isChecked){
-//                    tvTodoItem.setPaintFlags(tvTodoItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//                    database.todolistItemDAO().updateIsCheck();
-//
-//                }
-//            }
-//        });
 
         RecyclerView recyclerView = findViewById(R.id.rvTodoItem);
         recyclerView.setHasFixedSize(true);
@@ -260,7 +255,7 @@ public class DetailTodoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         todolistItems.clear();
-        todolistItems.addAll(database.todolistItemDAO().getAllTodolistItem());
+        todolistItems.addAll(database.todolistItemDAO().getTodolistItems(todolist.id));
         todoItemsAdapter.notifyDataSetChanged();
     }
 }

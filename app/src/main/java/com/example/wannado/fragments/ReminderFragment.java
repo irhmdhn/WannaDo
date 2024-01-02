@@ -29,8 +29,6 @@ import com.example.wannado.database.entities.Notepad;
 import com.example.wannado.database.entities.Reminder;
 import com.example.wannado.details.DetailReminderActivity;
 import com.example.wannado.details.DetailTodoActivity;
-import com.example.wannado.model.ReminderModel;
-import com.example.wannado.model.TodoModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;

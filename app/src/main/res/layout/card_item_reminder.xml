@@ -24,9 +24,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:layout_toLeftOf="@+id/btnDel"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/tvItemReminderTitle"
                 android:layout_width="match_parent"
@@ -46,39 +44,19 @@
                 android:textSize="13dp"
                 tools:text="Date"/>
 
-            <TextView
-                android:id="@+id/tvItemReminderTime"
-                android:layout_width="match_parent"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                tools:text="Time"/>
-
-            <TextView
-                android:id="@+id/tvItemReminderRepeat"
-                android:layout_width="match_parent"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                tools:text="Repeat"/>
 
         </LinearLayout>
-
-        <ImageView
+        <TextView
+            android:id="@+id/tvItemReminderTime"
             android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_delete"
-            app:tint="@color/blue"
+            android:textSize="24sp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:clickable="true"
-            android:onClick="setDialog"
-            android:background="?selectableItemBackground"
-            android:id="@+id/btnDel"/>
+            tools:text="Time"/>
+
 
     </RelativeLayout>
 

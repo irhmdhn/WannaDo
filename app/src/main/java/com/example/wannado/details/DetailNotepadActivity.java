@@ -22,8 +22,6 @@ import com.example.wannado.adapter.TodoAdapter;
 import com.example.wannado.database.AppDatabase;
 import com.example.wannado.database.entities.Notepad;
 import com.example.wannado.database.entities.Reminder;
-import com.example.wannado.model.NotepadModel;
-import com.example.wannado.model.TodoModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;

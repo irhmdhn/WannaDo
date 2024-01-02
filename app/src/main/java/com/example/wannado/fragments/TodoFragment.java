@@ -28,7 +28,6 @@ import com.example.wannado.database.entities.Todolist;
 import com.example.wannado.database.entities.Todolist_item;
 import com.example.wannado.details.DetailNotepadActivity;
 import com.example.wannado.details.DetailTodoActivity;
-import com.example.wannado.model.TodoModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;

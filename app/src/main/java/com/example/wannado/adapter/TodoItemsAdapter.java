@@ -75,6 +75,14 @@ public class TodoItemsAdapter extends RecyclerView.Adapter<TodoItemsAdapter.Todo
                     }
                 }
             });
+//            itemView.findViewById(R.id.cbTodoItem).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (checkBox != null){
+//                        checkBox.onChange(getLayoutPosition());
+//                    }
+//                }
+//            });
             cbTodoItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -123,10 +131,8 @@ public class TodoItemsAdapter extends RecyclerView.Adapter<TodoItemsAdapter.Todo
         this.dialog = dialog;
     }
 
-//    public void setIsCheck(MaterialCheckBox checkBox){
-//        this.checkBox = checkBox;
-//    }
 //    public interface MaterialCheckBox{
 //        void onChange(int position);
 //    }
+//    public void setIsCheck(MaterialCheckBox checkBox){ this.checkBox = checkBox; }
 }
